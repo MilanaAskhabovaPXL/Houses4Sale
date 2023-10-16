@@ -11,8 +11,8 @@
 	<groupId>be.pxl</groupId>
 	<artifactId>demo3</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo3</name>
-	<description>demo3</description>
+	<name>Houses4Sale</name>
+	<description>Houses4Sale</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
