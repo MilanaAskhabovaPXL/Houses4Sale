@@ -1,0 +1,41 @@
+POST http://localhost:8088/houses
+Content-Type: application/json
+
+{
+"code": "HAS_003",
+"description": "Cozy bungalow",
+"city": "Hasselt",
+"area": 201, "epcScore": "B"
+
+}
+###
+
+POST http://localhost:8088/houses
+Content-Type: application/json
+
+{
+"code": "GNK_001",
+"name": "Beautiful house in the city",
+"city": "Genk", "area": 150, "epcScore": "D"
+}
+
+###
+GET http://localhost:8088/houses
+
+###
+PUT http://localhost:8088/houses/HAS_003
+Content-Type: application/json
+
+{
+"description": "Bungalow to renovate",
+"city": "Hasselt",
+"epcScore": "C",
+"area": 125
+}
+###
+DELETE http://localhost:8088/houses/GNK_001
+
+###
+GET http://localhost:8088/houses
+
+###

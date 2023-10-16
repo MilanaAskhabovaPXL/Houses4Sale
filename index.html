@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Houses</title>
+</head>
+<body>
+<h1>Houses</h1>
+
+<button onclick="loadHouses()">Load Houses</button>
+<table id="houseTable">
+	<tr>
+		<th>Code</th>
+		<th>Area</th>
+		<th>Description</th>
+		<th>Price</th>
+		<th>EPC Score</th>
+		<th>Status</th>
+		<th>Action</th>
+	</tr>
+</table>
+
+<h2>Add New House</h2>
+<input id="code" type="text" placeholder="Code">
+<input id="area" type="text" placeholder="Area">
+<input id="description" type="text" placeholder="Description">
+<input id="city" type="text" placeholder="City">
+<input id="epcScore" type="text" placeholder="EPC Score">
+<button onclick="addHouse()">Add House</button>
+
+<h2>Update House</h2>
+<input id="updateCode" type="text" placeholder="Code">
+<input id="updateArea" type="text" placeholder="Area">
+<input id="updateDescription" type="text" placeholder="Description">
+<input id="updateCity" type="text" placeholder="City">
+<input id="updateEpcScore" type="text" placeholder="EPC Score">
+<button onclick="updateHouse()">Update House</button>
+
+<div id="errorContainer"></div>
+<script>
+	const apiUrl = 'http://localhost:8088/houses';
+	const errorContainer = document.getElementById('errorContainer');
+
+	function displayError(message) {
+		errorContainer.innerHTML = `<p style="color: red;">Error: ${message}</p>`;
+	}
+
+	function clearError() {
+		errorContainer.innerHTML = '';
+	}
+
+	function loadHouses() {
+		fetch(apiUrl)
+			.then(response => response.json())
+			.then(data => {
+				const table = document.getElementById('houseTable');
+				table.innerHTML = `<tr>
+                                        <th>Code</th>
+                                        <th>Area</th>
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                        <th>EPC Score</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>`;
+				data.forEach(house => {
+					table.innerHTML += `<tr>
+                                            <td>${house.code}</td>
+                                            <td>${house.area}</td>
+                                            <td>${house.description}</td>
+                                            <td>${house.price}</td>
+                                            <td>${house.epcScore}</td>
+                                            <td>${house.status}</td>
+                                            <td><button onclick="markSold('${house.code}')">Mark Sold</button></td>
+                                        </tr>`;
+				});
+			});
+	}
+
+	function markSold(code) {
+		fetch(`${apiUrl}/${code}/mark-as-sold`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then(response => {
+			if (response.status !== 200) {
+				throw new Error(`HTTP status ${response.status}`);
+			}
+			return response.json();
+		}).then(data => {
+			clearError();
+			loadHouses();
+		}).catch(error => {
+			displayError(`Failed to mark as sold: ${error.message}`);
+		});
+	}
+
+	function addHouse() {
+		const code = document.getElementById('code').value;
+		const area = document.getElementById('area').value;
+		const description = document.getElementById('description').value;
+		const epcScore = document.getElementById('epcScore').value;
+		const city = document.getElementById('city').value;
+
+		fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({code, area, description, city, epcScore})
+		}).then(response => {
+			if (response.status === 200) {
+				clearError();
+				loadHouses();
+			} else {
+				return response.json().then(data => {
+					throw new Error(`HTTP status ${response.status}: ${data.error}`);
+				});
+			}
+		}).catch(error => {
+			displayError(`Failed to create house: ${error}`);
+		});
+	}
+
+	function updateHouse() {
+		const code = document.getElementById('updateCode').value;
+		const area = document.getElementById('updateArea').value;
+		const description = document.getElementById('updateDescription').value;
+		const city = document.getElementById('updateCity').value;
+		const epcScore = document.getElementById('updateEpcScore').value;
+
+		fetch(`${apiUrl}/${code}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({code, area, description, city, epcScore})
+		})
+			.then(loadHouses);
+	}
+</script>
+</body>
+</html>
