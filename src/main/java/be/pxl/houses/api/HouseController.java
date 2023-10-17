@@ -27,12 +27,12 @@ public class HouseController {
 	}
 
 	@PostMapping
-	public void createHouse(@RequestBody @Valid CreateHouseRequest house) {
+	public void createHouse(@RequestBody CreateHouseRequest house) {
 		houseService.addHouse(house);
 	}
 
 	@PutMapping("{code}")
-	public void updateHouse(@PathVariable String code, @RequestBody @Valid UpdateHouseRequest house) {
+	public void updateHouse(@PathVariable String code, @RequestBody UpdateHouseRequest house) {
 		houseService.updateHouse(code, house);
 	}
 

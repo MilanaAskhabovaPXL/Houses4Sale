@@ -9,7 +9,7 @@ public enum EPCScore {
 	E(0.80),
 	F(0.75);
 
-	private double percentage;
+	private final double percentage;
 
 	EPCScore(double percentage) {
 		this.percentage = percentage;

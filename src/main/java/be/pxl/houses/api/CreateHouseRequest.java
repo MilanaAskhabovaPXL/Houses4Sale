@@ -3,10 +3,10 @@ package be.pxl.houses.api;
 import be.pxl.houses.domain.EPCScore;
 
 public class CreateHouseRequest {
-	// description, code, city and epcScore are mandatory
+	// TODO add validation: description, code, city and epcScore are mandatory
 	private String code;
 	private String description;
-	// area between 75 and 550 (boundaries inclusive)
+	// TODO add validation: area between 75 and 550 (boundaries inclusive)
 	private int area;
 	private String city;
 	private EPCScore epcScore;

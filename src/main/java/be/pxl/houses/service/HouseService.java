@@ -15,13 +15,13 @@ public class HouseService {
 	private final Map<String, House> houseMap = new HashMap<>();
 
 	public void addHouse(CreateHouseRequest house) {
-		// Throw a DuplicateHouseException() when there is already a house with the given code.
+		// TODO: Throw your own DuplicateHouseException (unchecked exception) when there is already a house with the given code.
 		House newHouse = new House(house.getCode(), house.getDescription(), house.getArea(), house.getEpcScore());
 		houseMap.put(house.getCode(), newHouse);
 	}
 
 	public void updateHouse(String code, UpdateHouseRequest house) {
-		// Throw an own HouseNotFound exception when there is no house with the given code
+		// TODO: Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
 		House houseByCode = getHouseByCode(code);
 		if (houseByCode != null) {
 			houseByCode.setCity(house.getCity());
@@ -35,6 +35,7 @@ public class HouseService {
 	}
 
 	public void deleteHouse(String code) {
+		// TODO: Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
 		houseMap.remove(code);
 	}
 
@@ -43,6 +44,7 @@ public class HouseService {
 	}
 
 	public void markAsSold(String code) {
+		// TODO: Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
 		getHouseByCode(code).markAsSold();
 	}
 }
