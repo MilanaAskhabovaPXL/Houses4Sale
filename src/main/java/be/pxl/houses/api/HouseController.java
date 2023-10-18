@@ -2,7 +2,6 @@ package be.pxl.houses.api;
 
 import be.pxl.houses.domain.House;
 import be.pxl.houses.service.HouseService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
