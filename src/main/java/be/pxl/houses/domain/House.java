@@ -2,7 +2,7 @@ package be.pxl.houses.domain;
 
 public class House {
 
-	private static final double BASE_PRICE = 2356.75;
+	public static final double BASE_PRICE = 2356.75; // changed access
 	private final String code;
 	private String description;
 	private int area;
