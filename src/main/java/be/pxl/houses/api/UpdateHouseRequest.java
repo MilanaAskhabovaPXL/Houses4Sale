@@ -1,13 +1,22 @@
 package be.pxl.houses.api;
 
 import be.pxl.houses.domain.EPCScore;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class UpdateHouseRequest {
-	// TODO add validation: description, city and epcScore are mandatory
+	//  add validation: description, city and epcScore are mandatory
+	@NotBlank
 	private String description;
-	// TODO add validation: area between 75 and 550 (boundaries inclusive)
+	//  add validation: area between 75 and 550 (boundaries inclusive)
+	@Min(75)
+	@Max(550)
 	private int area;
+	@NotBlank
 	private String city;
+	@NotNull
 	private EPCScore epcScore;
 
 	public String getDescription() {

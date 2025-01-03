@@ -3,6 +3,8 @@ package be.pxl.houses.service;
 import be.pxl.houses.api.CreateHouseRequest;
 import be.pxl.houses.api.UpdateHouseRequest;
 import be.pxl.houses.domain.House;
+import be.pxl.houses.exceptions.DuplicateHouseException;
+import be.pxl.houses.exceptions.HouseNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,13 +17,19 @@ public class HouseService {
 	private final Map<String, House> houseMap = new HashMap<>();
 
 	public void addHouse(CreateHouseRequest house) {
-		// TODO: Throw your own DuplicateHouseException (unchecked exception) when there is already a house with the given code.
+		// Throw your own DuplicateHouseException (unchecked exception) when there is already a house with the given code.
+		if (houseMap.containsKey(house.getCode())) {
+			throw new DuplicateHouseException("There is already a house with this code");
+		}
 		House newHouse = new House(house.getCode(), house.getDescription(), house.getArea(), house.getEpcScore());
 		houseMap.put(house.getCode(), newHouse);
 	}
 
 	public void updateHouse(String code, UpdateHouseRequest house) {
-		// TODO: Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
+		// Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
+		if (!houseMap.containsKey(code)) {
+			throw new HouseNotFoundException("There is no house with this code");
+		}
 		House houseByCode = getHouseByCode(code);
 		if (houseByCode != null) {
 			houseByCode.setCity(house.getCity());
@@ -35,7 +43,10 @@ public class HouseService {
 	}
 
 	public void deleteHouse(String code) {
-		// TODO: Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
+		//  Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
+		if (!houseMap.containsKey(code)) {
+			throw new HouseNotFoundException("There is no house with this code");
+		}
 		houseMap.remove(code);
 	}
 
@@ -44,7 +55,10 @@ public class HouseService {
 	}
 
 	public void markAsSold(String code) {
-		// TODO: Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
+		//  Throw an own HouseNotFoundException (custom unchecked exception) when there is no house with the given code
+		if (!houseMap.containsKey(code)) {
+			throw new HouseNotFoundException("There is no house with this code");
+		}
 		getHouseByCode(code).markAsSold();
 	}
 }
